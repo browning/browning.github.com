@@ -1,0 +1,197 @@
+<!-- d3 visualization of trade relationships -->
+
+<html>
+
+<head>
+<script src="http://d3js.org/d3.v2.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+<script src="trade_data.js"></script>
+<title>Trade viz</title>
+
+<script type="text/javascript">
+var start_date = "2002";
+var end_date = "2012";
+
+var matrix = [];
+
+var teams = ['Celtics', 'Nets', 'Knicks', '76ers', 'Raptors',
+  'Bulls', 'Cavaliers', 'Pistons', 'Pacers', 'Bucks',
+  'Hawks', 'Bobcats', 'Heat', 'Magic', 'Wizards',
+  'Mavericks', 'Rockets', 'Grizzlies', 'Hornets', 'Spurs',
+  'Nuggets', 'Timberwolves', 'Blazers', 'Thunder', 'Jazz',
+  'Warriors', 'Clippers', 'Lakers', 'Suns', 'Kings'];
+var table = null;
+function make_table()
+{
+  var scale = d3.scale.linear().domain([0,7]).range(["white","red"]);
+var col_id = 0;
+ d3.select("#viz")
+    .append("table")
+    .attr("id", "mytable") 
+    .style("border-collapse", "collapse")
+    .style("border", "2px black solid")
+    
+    .selectAll("tr")
+    .data(matrix)
+    .enter().append("tr")   
+    .on("mouseover", function(d,i) {})
+    .selectAll("td")
+    .data(function(d){return d;})
+    .enter().append("td")
+    .on("mouseover", function(d,i) { col_id = i;})
+    .style("border", "1px black solid")
+    .style("height", "30px")
+    .style("width", "30px")
+    .style("background-color", function(d){ 
+      return scale(d);})
+    .text(function(d){return d;})
+    .style("font-size", "9px");
+  
+}
+
+function generate_matrix()
+{
+  // MAKE HEADER
+  matrix = [];
+  var row = [];
+  row.push('TEAM')
+  for (var i=0; i<teams.length; i++ )
+  {
+    row.push(teams[i]);
+  }
+  matrix.push(row);
+  
+  //build each row
+  for ( var i =0; i<teams.length; i++)
+  {
+    row = [];
+    row.push(teams[i]);
+    for ( var q=0; q<teams.length; q++)
+    {
+      num_trades = 0;
+      for (d = parseInt(start_date); d<=parseInt(end_date); d++)
+      {
+        try
+        {
+          n = trade_data[d + ''][teams[i].toLowerCase()][teams[q].toLowerCase()];
+
+          if (typeof n === "undefined")
+          {
+            n=0;
+          }
+
+          // handle nets & hornets data issue blargh
+          if( teams[q] === "Nets")
+          {
+            num_hornets = trade_data[d + ''][teams[i].toLowerCase()]['hornets'];
+            if (typeof num_hornets === "undefined")
+            {
+               num_hornets=0;
+             }
+            n = n - num_hornets;
+          }
+        
+          // handle identical team trade data issue
+          if ( q === i)
+          {
+            n=0;
+          }
+          num_trades = num_trades + n; 
+        }
+        catch(err){}
+      }
+      row.push(num_trades);
+    }
+    matrix.push(row);
+  }
+}
+
+$(document).ready(function(){
+
+  $("#from").change(function() 
+    {   
+      start_date = $("#from").val();  
+      generate_matrix(); 
+      d3.select('#mytable').remove();
+
+      make_table();
+    }
+  );
+
+     $("#to").change(function() 
+    {    
+      end_date = $("#from").val();  
+      generate_matrix();  
+      d3.select('#mytable').remove();
+      make_table();
+    }); 
+
+    generate_matrix();
+    make_table();
+});
+  
+</script>
+
+</head>
+
+<body>
+<h3>Visualization of trading relationships between teams</h3>
+<select id="from">
+<option>1990</option>
+<option>1991</option>
+<option>1992</option>
+<option>1993</option>
+<option>1994</option>
+<option>1995</option>
+<option>1996</option>
+<option>1997</option>
+<option>1998</option>
+<option>1999</option>
+<option>2000</option>
+<option>2001</option>
+<option  selected="selected">2002</option>
+<option>2003</option>
+<option>2004</option>
+<option>2005</option>
+<option>2006</option>
+<option>2007</option>
+<option>2008</option>
+<option>2009</option>
+<option>2010</option>
+<option>2011</option>
+<option>2012</option>
+</select>
+to
+<select id="from">
+<option>1990</option>
+<option>1991</option>
+<option>1992</option>
+<option>1993</option>
+<option>1994</option>
+<option>1995</option>
+<option>1996</option>
+<option>1997</option>
+<option>1998</option>
+<option>1999</option>
+<option>2000</option>
+<option>2001</option>
+<option>2002</option>
+<option>2003</option>
+<option>2004</option>
+<option>2005</option>
+<option>2006</option>
+<option>2007</option>
+<option>2008</option>
+<option>2009</option>
+<option>2010</option>
+<option>2011</option>
+<option selected="selected">2012</option>
+</select>
+
+
+<div id="viz">
+
+</div>
+</body>
+
+</html>
