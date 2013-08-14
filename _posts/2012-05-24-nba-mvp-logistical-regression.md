@@ -89,11 +89,10 @@ Next I ran the model on each year of performances to find out who the model thin
     2008  Lebron James    Lebron James
     2009  Lebron James    Lebron James
 
-I only had data up until 2009 for this*
+I only had data up until 2009 for this
 
 Finally I wanted to see if the MVP has changed meaning over the years. Like today the mvp is usually given to the best player on the best team, but in the past maybe it was given to the best player even if they were on a really bad team. If anything, the opposite is true, but really there isn't much trend to speak of. Here is a chart of the MVP's team rank over the past 50 years ( 1 is the best ). Also keep in mind the league has added teams over these years.
 
-<img src ="/assets/images/mvpranks.png"
-alt="MVPS by year" width='337' height='350' ></img>
+<img src ="/assets/images/mvpranks.png" alt="MVPS by year" width='337' height='350' />
 
 Chart of MVP team ranks by year
