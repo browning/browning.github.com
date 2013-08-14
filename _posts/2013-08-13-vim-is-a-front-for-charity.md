@@ -9,7 +9,7 @@ tags: []
 
 If you have used vim a bunch, you have probably seen the vim title screen thousands of times. If you are like me, you don't even really notice it. It caught my eye for some reason today with its prompt to 'Help poor children in Uganda!'
 
-<img src ="/assets/images/vimscreenshot.jpg" alt="VIM title screen" width='500' height='350' />
+<img src ="/assets/images/vimscreenshot.jpg" alt="VIM title screen" width='550' height='350' />
 
 I was curious how much in donations a simple prompt like this would actually generate. On the one hand, lots of people use vim every day. On the other hand, its not a very eye grabbing prompt. 
 
